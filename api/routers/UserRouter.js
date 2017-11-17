@@ -1,10 +1,10 @@
 'use strict'
-module.exports = (app) =>{
+module.exports = function(app){
     var userController = require('../controllers/UserController');
     
     app.route('/login')
-    .get(userController.login);
+    .post(userController.login);
 
     app.route('/register')
     .post(userController.register);
-}
+};

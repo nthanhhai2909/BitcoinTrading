@@ -6,7 +6,6 @@ var User = new Schema({
     fullname: {type: String},
     username: { type:String},
     password: {type:String},
-    date: {type:String},
     idWallet : {type:String},
 });
 

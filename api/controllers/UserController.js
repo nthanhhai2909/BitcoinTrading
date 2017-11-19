@@ -11,24 +11,23 @@ exports.login = function(req, res){
         }
         else{
             if(data === null){
-                res.send('notfound');
+                res.send({status: 404});
             }
             else{
-                if(req.body.password === data.password)
+                if(req.body.password === data.password )
                 {
                     res.send({status: 200});
                 }
                 else{
-                    res.send("err");
-                }
-                    
+                    res.send({status: 404});
+                }     
                     
             }
         }
     });
 };  
 
-exports.register = function(req, res){
+exports.logup = function(req, res){
     let idWalletRandom = randomstring.generate();
     User.findOne({'username': req.body.username}, 'username', (err, user) =>{
         if(err){
@@ -41,12 +40,11 @@ exports.register = function(req, res){
                         fullname: req.body.fullname,
                         username: req.body.username,
                         password: req.body.password,
-                        date:   req.body.date,
                         idWallet: idWalletRandom
                     });
                     new_user.save((err, date) =>{
                         if(err){
-                            res.send(err);
+                            res.send({status: 200});
                         }
                         else{
                             res.send({status: 200});
@@ -54,12 +52,12 @@ exports.register = function(req, res){
                     });
                 }
                 else{
-                    res.send("err");
+                    res.send({status: 404});
                 }
                 
             }
             else{
-                res.send("err");
+                res.send({status: 404});
             }
             
         }

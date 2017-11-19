@@ -10,27 +10,25 @@ export default class Header1 extends React.Component{
     }
 
     handleClick(){
-        this.props.handleClick();
     }
-
     render(){
         return(
-            <Router>
-                <Navbar inverse collapseOnSelect>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a to="#">BLOCKCHANIN</a>
-                        </Navbar.Brand>
-                        <Nav>
-                            <NavItem onClick={()=>this.handleClick()}><Link to={'/login'}>Login</Link></NavItem>
-                        </Nav>
-                    </Navbar.Header>
-                    <Nav pullRight>
-                        <NavItem to="about">About</NavItem>
+            <Navbar inverse collapseOnSelect>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <a to="#">BLOCKCHANIN</a>
+                    </Navbar.Brand>
+                    <Nav>
+                        <NavItem onClick={()=>this.handleClick()}><Link to={'/home'}>Home</Link></NavItem>
                     </Nav>
-            </Navbar>
-            </Router>
-            
-        );
+                    <Nav>
+                        <NavItem onClick={()=>this.handleClick()}><Link to={'/login'}>Login</Link></NavItem>
+                    </Nav>
+                </Navbar.Header>
+                <Nav pullRight>
+                    <NavItem to="about">About</NavItem>
+                </Nav>
+        </Navbar>  
+    );
     }
 }   

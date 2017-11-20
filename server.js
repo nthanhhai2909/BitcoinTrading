@@ -4,7 +4,8 @@ var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var path = require('path');
 var bodyParser = require('body-parser');
-var User = require('./api/models/UserModel'); // create model loading here
+var User = require('./api/models/UserModel'); // create model User loading here
+var Transaction = require('./api/models/TransactionModel'); // create model Transaction loading here
 var index = require('./api/routers/IndexRouter');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -28,6 +29,8 @@ app.set('view engine', 'ejs');
 
 
 var routerUser = require('./api/routers/UserRouter');
+var routerTransaction = require('./api/routers/TransactionRouter');
+routerTransaction(app);
 routerUser(app);
 app.use('/', index);
 app.use(function(req, res) {

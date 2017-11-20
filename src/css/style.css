@@ -6,11 +6,42 @@ body {
   }
   h1, h2, h3, h4, h5, h6, a {
     margin:0; padding:0;
+    margin-bottom: 10px;
   }
   .login {
     margin:0 auto;
     max-width:500px;
   }
+
+  .content_home{
+    margin:0 auto;
+    max-width:800px;
+  }
+
+  .content_transaction{
+    margin-top: 10px;
+    margin:0 auto;
+    max-width:400px;
+  }
+
+  .content_home input[type="text"],
+  .content_home input[type="password"] {
+    max-width:800px;
+      width: 80%;
+    line-height:3em;
+    font-family: 'Ubuntu', sans-serif;
+    margin:1em 2em;
+    border-radius:5px;
+    border:2px solid #f2f2f2;
+    outline:none;
+    padding-left:10px;
+  }
+
+  .content_home h5{
+    margin-left: 50px;
+    padding-left:10px;
+  }
+  
   .login-header {
     color:#fff;
     text-align:center;
@@ -27,6 +58,15 @@ body {
     margin-left:40px;
     color:#fff;
   }
+
+  .login-form h5 {
+    text-align:left;
+    margin-left:80px;
+    color:red;
+    padding-left:10px;
+  }
+
+
   .login-form {
     box-sizing:border-box;
     padding-top:15px;
@@ -81,6 +121,12 @@ body {
       text-align:center;
       margin:0;
     }
+
+    .login h5{
+      text-align:left;
+      margin:0;
+      color: red;
+    }
     .sign-up, .no-access {
       margin:10px 0;
     }
@@ -88,3 +134,30 @@ body {
       margin-bottom:10px;
     }
   }
+
+
+   /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+   .row.content {height: 1500px}
+   
+   /* Set gray background color and 100% height */
+   .sidenav {
+     background-color: #f1f1f1;
+     height: 100%;
+   }
+   
+   /* Set black background color, white text and some padding */
+   footer {
+     background-color: #555;
+     color: white;
+     padding: 15px;
+   }
+   
+   /* On small screens, set height to 'auto' for sidenav and grid */
+   @media screen and (max-width: 767px) {
+     .sidenav {
+       height: auto;
+       padding: 15px;
+     }
+     .row.content {height: auto;} 
+   }
+

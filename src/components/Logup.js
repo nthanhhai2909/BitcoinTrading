@@ -11,16 +11,21 @@ export default class Logup extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            fullname: null,
-            username: null,
-            password:null,
-            confirm:null,
+            fullname: "",
+            username: "",
+            password:"",
+            confirm:"",
+            invalidUsername: "",
+            invalidPassword: "",
+            invalidConfirm: "",
         }
 
         this.handleChangeFullName = this.handleChangeFullName.bind(this);
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeConfirm = this.handleChangeConfirm.bind(this);
+        this.isValidFrom = this.isValidFrom.bind(this);
+        this.SignupClick = this.SignupClick.bind(this);
     }
 
     handleChangeFullName(event){
@@ -36,15 +41,54 @@ export default class Logup extends React.Component{
         this.setState({confirm:event.target.value});
     }
 
+    isValidFrom(){
+        let count = 0;
+        if(this.state.username[0] > '0' && this.state.username[0] < '9' || this.state.username.length === 0){
+            count++;
+            this.setState({invalidUsername: "Invalid"});
+        }
+        else{
+            this.setState({invalidUsername: ""});
+    
+        }
+        if(this.state.password.length < 6 || (this.state.password[0] > '0' && this.state.password[0] < '9') || 
+            this.state.password.length === 0){
+            count++;
+            this.setState({invalidPassword: "Invalid"});
+        }
+        else{
+            this.setState({invalidPassword: ""});
+        }
+        if(this.state.confirm !== this.state.password){
+            count++;
+            this.setState({invalidConfirm: "Invalid"});
+        }
+        else{
+            this.setState({invalidConfirm: ""});
+        }
+        console.log("hihi", count);
+        return count;
+    }
+
+
     SignupClick(){
+        if(this.isValidFrom() > 0){
+            return;
+        }
+
         axios.post('/logup',{
             fullname:this.state.fullname,
             username: this.state.username, 
             password: this.state.password,
-            confirm:this.state.confirm
+            confirm:this.state.confirm,
         })
         .then((response)=>{
-            console.log(response.data);
+            if(response.data.status === 200){
+                this.props.history.push("/");
+            }
+            else{
+                this.setState({invalidUsername: response.data.message});
+            }
         })
         .catch((err) => console.log(err));
     }
@@ -60,16 +104,21 @@ export default class Logup extends React.Component{
                     <div className="login-form">
                         <h3>Full name:</h3>
                         <input type="text" placeholder="Full Name" value={this.state.fullname}
-                            onChange={this.handleChangeFullName}/><br/>
+                            onChange={this.handleChangeFullName}/>
+                            <br/>
                          <h3>Username:</h3>
                         <input type="text" placeholder="Username" value={this.state.username}
                             onChange={this.handleChangeUsername}/><br/>
+                            <h5>{this.state.invalidUsername}</h5>
                         <h3>Password:</h3>
                         <input type="password" placeholder="Password" value={this.state.password}
-                            onChange={this.handleChangePassword}/><br/>
+                            onChange={this.handleChangePassword}/>
+                            <h5>{this.state.invalidPassword}</h5>
+                            <br/>
                         <h3>Confirm:</h3>
                         <input type="password" placeholder="Confirm" value={this.state.confirm}
-                            onChange={this.handleChangeConfirm}/><br/>
+                            onChange={this.handleChangeConfirm}/>
+                            <h5>{this.state.invalidConfirm}</h5><br/>
                         <input type="button" value="Sign-up" className="login-button" onClick={()=>this.SignupClick()}/>
                     </div>
                 </div>

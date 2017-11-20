@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {Redirect} from 'react-router';
 import {Navbar, NavItem, MenuItem, Brand, Nav, Col, Image, circle, Form, 
     Input, FormGroup, Button, FormControl, Checkbox, Label} from 'react-bootstrap';
 import '../css/style.css';
@@ -21,13 +22,12 @@ export default class Login extends React.Component{
 
 
     loginClick(){
-        console.log(this.state.username + '-' + this.state.password);
         axios.post('/login',{
             username: this.state.username, 
             password: this.state.password
         })
         .then((response)=>{
-            console.log(response.data);
+            this.props.history.push("/");
         })
         .catch((err) => console.log(err));
     }

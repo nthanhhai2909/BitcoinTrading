@@ -16,7 +16,7 @@ export default class Header1 extends React.Component{
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a to="#">BLOCKCHANIN</a>
+                        <a to="#"><Link to={'/home'}>BLOCKCHAIN</Link></a>
                     </Navbar.Brand>
                     <Nav>
                         <NavItem onClick={()=>this.handleClick()}><Link to={'/home'}>Home</Link></NavItem>

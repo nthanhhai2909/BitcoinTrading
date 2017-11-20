@@ -26,6 +26,7 @@ export default class Logup extends React.Component{
         this.handleChangeConfirm = this.handleChangeConfirm.bind(this);
         this.isValidFrom = this.isValidFrom.bind(this);
         this.SignupClick = this.SignupClick.bind(this);
+        this.resetForm = this.resetForm.bind(this);
     }
 
     handleChangeFullName(event){
@@ -70,6 +71,18 @@ export default class Logup extends React.Component{
         return count;
     }
 
+    resetForm(){
+        this.setState({
+            fullname: "",
+            username: "",
+            password:"",
+            confirm:"",
+            invalidUsername: "",
+            invalidPassword: "",
+            invalidConfirm: "",
+        });
+    }
+
 
     SignupClick(){
         if(this.isValidFrom() > 0){
@@ -87,6 +100,7 @@ export default class Logup extends React.Component{
                 this.props.history.push("/");
             }
             else{
+                this.resetForm();
                 this.setState({invalidUsername: response.data.message});
             }
         })
@@ -120,6 +134,8 @@ export default class Logup extends React.Component{
                             onChange={this.handleChangeConfirm}/>
                             <h5>{this.state.invalidConfirm}</h5><br/>
                         <input type="button" value="Sign-up" className="login-button" onClick={()=>this.SignupClick()}/>
+                        <br/>
+                        <Link className="Sign-up" to="/login">Sign-up</Link>
                     </div>
                 </div>
                 

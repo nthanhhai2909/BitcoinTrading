@@ -13,13 +13,23 @@ export default class Login extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            username: null,
-            password: null,
+            username: "",
+            password: "",
+            status: "",
         }
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.resetForm = this.resetForm.bind(this);
     }
 
+
+    resetForm(){
+        this.setState({
+            username: "",
+            password: "",
+            status: "",
+        });
+    }
 
     loginClick(){
         axios.post('/login',{
@@ -27,7 +37,13 @@ export default class Login extends React.Component{
             password: this.state.password
         })
         .then((response)=>{
-            this.props.history.push("/");
+            if(response.data.status === 200){
+                this.props.history.push("/");
+            }
+            else{
+                this.setState({status: "Login unsuccessful!!!"})
+            }
+            
         })
         .catch((err) => console.log(err));
     }
@@ -49,7 +65,9 @@ export default class Login extends React.Component{
                         <h1>Login</h1>
                     </div>
                     <div className="login-form">
+                          <h5>{this.state.status}</h5>
                         <h3>Username:</h3>
+                        
                         <input type="text" placeholder="Username"
                          value={this.state.username} onChange={this.handleChangeUsername}/><br/>
                         <h3>Password:</h3>

@@ -4846,15 +4846,26 @@ var Login = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
         _this.state = {
-            username: null,
-            password: null
+            username: "",
+            password: "",
+            status: ""
         };
         _this.handleChangeUsername = _this.handleChangeUsername.bind(_this);
         _this.handleChangePassword = _this.handleChangePassword.bind(_this);
+        _this.resetForm = _this.resetForm.bind(_this);
         return _this;
     }
 
     _createClass(Login, [{
+        key: 'resetForm',
+        value: function resetForm() {
+            this.setState({
+                username: "",
+                password: "",
+                status: ""
+            });
+        }
+    }, {
         key: 'loginClick',
         value: function loginClick() {
             var _this2 = this;
@@ -4863,7 +4874,11 @@ var Login = function (_React$Component) {
                 username: this.state.username,
                 password: this.state.password
             }).then(function (response) {
-                _this2.props.history.push("/");
+                if (response.data.status === 200) {
+                    _this2.props.history.push("/");
+                } else {
+                    _this2.setState({ status: "Login unsuccessful!!!" });
+                }
             }).catch(function (err) {
                 return console.log(err);
             });
@@ -4903,6 +4918,11 @@ var Login = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'login-form' },
+                        _react2.default.createElement(
+                            'h5',
+                            null,
+                            this.state.status
+                        ),
                         _react2.default.createElement(
                             'h3',
                             null,
@@ -11769,6 +11789,7 @@ var Logup = function (_React$Component) {
         _this.handleChangeConfirm = _this.handleChangeConfirm.bind(_this);
         _this.isValidFrom = _this.isValidFrom.bind(_this);
         _this.SignupClick = _this.SignupClick.bind(_this);
+        _this.resetForm = _this.resetForm.bind(_this);
         return _this;
     }
 
@@ -11818,6 +11839,19 @@ var Logup = function (_React$Component) {
             return count;
         }
     }, {
+        key: 'resetForm',
+        value: function resetForm() {
+            this.setState({
+                fullname: "",
+                username: "",
+                password: "",
+                confirm: "",
+                invalidUsername: "",
+                invalidPassword: "",
+                invalidConfirm: ""
+            });
+        }
+    }, {
         key: 'SignupClick',
         value: function SignupClick() {
             var _this2 = this;
@@ -11835,6 +11869,7 @@ var Logup = function (_React$Component) {
                 if (response.data.status === 200) {
                     _this2.props.history.push("/");
                 } else {
+                    _this2.resetForm();
                     _this2.setState({ invalidUsername: response.data.message });
                 }
             }).catch(function (err) {
@@ -11914,7 +11949,13 @@ var Logup = function (_React$Component) {
                         _react2.default.createElement('br', null),
                         _react2.default.createElement('input', { type: 'button', value: 'Sign-up', className: 'login-button', onClick: function onClick() {
                                 return _this3.SignupClick();
-                            } })
+                            } }),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { className: 'Sign-up', to: '/login' },
+                            'Sign-up'
+                        )
                     )
                 )
             );

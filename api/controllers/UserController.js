@@ -1,12 +1,11 @@
-
-
-
 'use strict'
 var mongoose = require('mongoose');
 var User = mongoose.model('user');
 var randomstring = require("randomstring");
-
+var passwordHash = require('password-hash');
 exports.login = function(req, res){
+    let hashedPassword = 'sha1$3I7HRwy7$cbfdac6008f9cab4083784cbd1874f76618d2a97';
+    console.log(passwordHash.verify('password123', hashedPassword)); // true
     User.findOne({'username': req.body.username}, 'username password _id', (err, data)=>{
         if(err){
             res.send(err);
@@ -16,7 +15,8 @@ exports.login = function(req, res){
                 res.send({status: 404});
             }
             else{
-                if(req.body.password === data.password )
+                let hashedPassword = data.password;
+                if(passwordHash.verify(req.body.password, hashedPassword))
                 {
                     res.send({status: 200, id:data._id});
                 }
@@ -31,6 +31,8 @@ exports.login = function(req, res){
 
 exports.logup = function(req, res){
     let idWalletRandom = randomstring.generate();
+    let hashedPassword = passwordHash.generate(req.body.password);
+    console.log('passHash', hashedPassword);
     User.findOne({'username': req.body.username}, 'username', (err, user) =>{
         if(err){
             res.send(err);
@@ -41,7 +43,7 @@ exports.logup = function(req, res){
                     var new_user = new User({
                         fullname: req.body.fullname,
                         username: req.body.username,
-                        password: req.body.password,
+                        password: hashedPassword, 
                         idWallet: idWalletRandom,
                         balance: "1000",
                     });

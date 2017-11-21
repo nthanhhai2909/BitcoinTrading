@@ -105,7 +105,6 @@ exports.userReceiveMoney = (req, res) =>{
             let tranfer = parseFloat(req.body.tranfer);
             let blance = parseFloat(data.balance);
             let result = Number(Number(blance + tranfer).toFixed(12));
-            console.log("hihi", Number(Number(blance + tranfer).toFixed(12)));
             data.balance =  result.toString();
             data.save((err) =>{
                 if(err){

@@ -27,6 +27,8 @@ body {
   .content_transaction h5{
     margin-left: 50px;
     padding-left:10px;
+    text-align: left;
+    color: white
   }
 
   .content_transaction input[type="text"],
@@ -187,3 +189,16 @@ body {
      .row.content {height: auto;} 
    }
 
+
+   .transaction{
+     text-align: left;
+     margin-left: 10px;
+    height: 800px;
+    overflow: scroll;
+   }
+   .transaction h5{
+    text-align:left;
+    margin-left:80px;
+    color:white;
+    padding-left:10px;
+   }

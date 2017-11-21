@@ -30,33 +30,35 @@ exports.addTransaction = (req, res) =>{
     });
 }
 exports.getTransactionOfUser = (req, res) =>{
-    let transactions = []
+    var transactions = []
     // transaction sent
     Transaction.find({username_sent: req.params.username}).exec((err, data) =>{
 		if(err){
 			res.send({status: 404});
 		}
-		else{
-			transactions = transactions.concat(data);
+		else{ 
+            transactions = transactions.concat(data);
+            // transaction receive
+            Transaction.find({username_receive: req.params.username}).exec((err, data) =>{
+                if(err){
+                    res.send({status: 404});
+                }
+                else{
+                    transactions = transactions.concat(data);
+                    // sort transaction Ascending by data
+                    transactions= transactions.sort((a,b) =>{
+                        return parseFloat(b.date)-parseFloat(a.date);
+                    });
+                    let result = transactions.slice(0, transactions.length > 10? 10: transactions.length);
+                    res.send({status: 200, data: result});
+                
+                }
+            });
 		}
     });
 
-    // transaction receive
-    Transaction.find({username_receive: req.params.username}).exec((err, data) =>{
-		if(err){
-			res.send({status: 404});
-		}
-		else{
-			transactions = transactions.concat(data);
-		}
-    });
+    
+    
 
-    // sort transaction Ascending by data
-    transactions.sort((a,b) =>{
-        return a.date-b.date;
-    });
-
-    let result = transactions.slice(transactions.length - 10, transactions.length);
-
-    res.send({status: 200, data: result});
+    
 }

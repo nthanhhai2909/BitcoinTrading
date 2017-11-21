@@ -3,6 +3,7 @@ import {browserHistory} from 'react-router';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import {Navbar, NavItem, MenuItem, Brand, Nav, Col, Image, circle, Label, Button} from 'react-bootstrap';
 import HeaderMyHome from './HeaderMyHome';
+import ListTransaction from './ListTransaction';
 import '../css/style.css';
 import axios from 'axios';
 
@@ -36,7 +37,7 @@ export default class Home extends React.Component{
     }
     componentDidMount(){
         let username = this.props.match.params.username.split("=", 2)[1];
-
+        // get Profile
         axios.get('/user/' + username,{
         })
         .then((response)=>{
@@ -49,6 +50,15 @@ export default class Home extends React.Component{
                     myId: response.data.data[0]._id,
                 });
             } 
+        })
+        .catch((err) => console.log(err));
+        //------------------------------------------------------------------------------
+        // get Transaction
+        axios.get('/transaction/' + username,{})
+        .then((response) =>{
+            this.setState({
+                transaction: response.data.data
+            });
         })
         .catch((err) => console.log(err));
         
@@ -108,7 +118,6 @@ export default class Home extends React.Component{
                     
                 }
                 else{
-                    console.log(this.state.username + ' - ' + response.data.data[0].username);
                     if(this.state.username === response.data.data[0].username){
                         this.setState({
                             invalidIDWaller: 'IDWallet invalid!!!'
@@ -263,7 +272,13 @@ export default class Home extends React.Component{
                                     <h6>name	&#09;: {this.state.name}</h6>
                                     <h6>Balance	&#09;: {this.state.balance}</h6>
                                     <h6>ID Wallet : {this.state.idWallet}</h6>
-                                    <h6>Last transaction</h6>
+                                    <hr/>
+                                    <h5>Last transaction</h5>
+                                    <hr/>
+                                    <div className="transaction">
+                                        <ListTransaction values={this.state.transaction}/>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

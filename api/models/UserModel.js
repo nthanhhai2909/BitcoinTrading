@@ -7,11 +7,9 @@ var User = new Schema({
     fullname: {type: String},
     username: { type:String,
              required: true,
-              unique: true},
-        
+              unique: true},   
     password: {type:String},
     idWallet : {type:String},
     balance: {type:String} ,
 });
-
 module.exports = mongoose.model('user', User);

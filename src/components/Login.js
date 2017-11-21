@@ -8,8 +8,9 @@ import '../css/style.css';
 import axios from 'axios';
 
 
-export default class Login extends React.Component{
 
+export default class Login extends React.Component{
+    
     constructor(props){
         super(props);
         this.state={
@@ -38,7 +39,7 @@ export default class Login extends React.Component{
         })
         .then((response)=>{
             if(response.data.status === 200){
-                this.props.history.push("/");
+                this.props.history.push("/profile/:user=" + this.state.username);
             }
             else{
                 this.setState({status: "Login unsuccessful!!!"})
@@ -49,6 +50,7 @@ export default class Login extends React.Component{
     }
 
     handleChangeUsername(event){
+    
         this.setState({username: event.target.value});
     }
 
@@ -67,12 +69,9 @@ export default class Login extends React.Component{
                     <div className="login-form">
                           <h5>{this.state.status}</h5>
                         <h3>Username:</h3>
-                        
-                        <input type="text" placeholder="Username"
-                         value={this.state.username} onChange={this.handleChangeUsername}/><br/>
+                        <input type="text" placeholder="Username" onChange={ e =>this.handleChangeUsername(e)}/><br/>
                         <h3>Password:</h3>
-                        <input type="password" placeholder="Password"
-                        value={this.state.password} onChange={this.handleChangePassword}/>
+                        <input type="password" placeholder="Password" onChange={e => this.handleChangePassword(e)}/>
                         <br/>
                         <input type="button" value="Login" className="login-button"
                              onClick={()=>this.loginClick()}/>

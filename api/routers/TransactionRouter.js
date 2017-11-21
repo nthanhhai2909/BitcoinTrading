@@ -6,4 +6,7 @@ module.exports = function(app){
     app.route('/transaction')
     .get(TransactionController.getListTransaction)
     .post(TransactionController.addTransaction);
+
+    app.route('/transaction/:username')
+    .get(TransactionController.getTransactionOfUser);
 }

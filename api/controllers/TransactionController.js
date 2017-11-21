@@ -8,7 +8,7 @@ exports.getListTransaction = (req, res) =>{
         if(err){
             res.send({status: 404});
         }
-        res.json(transactions);
+        res.send({status: 200, data:transactions});
     });
 }
 
@@ -17,9 +17,9 @@ exports.addTransaction = (req, res) =>{
         username_sent: req.body.username_sent,
         username_receive: req.body.username_receive,
         date: req.body.date,
-        transaction_amount: req.body.transaction_amount
+        transaction_amount: req.body.transaction_amount,
+        description: req.body._description
     });
-
     new_transaction.save((err, data) => {
         if(err){
             res.send({status: 404});
@@ -28,4 +28,35 @@ exports.addTransaction = (req, res) =>{
             res.send({status: 200});
         }
     });
+}
+exports.getTransactionOfUser = (req, res) =>{
+    let transactions = []
+    // transaction sent
+    Transaction.find({username_sent: req.params.username}).exec((err, data) =>{
+		if(err){
+			res.send({status: 404});
+		}
+		else{
+			transactions = transactions.concat(data);
+		}
+    });
+
+    // transaction receive
+    Transaction.find({username_receive: req.params.username}).exec((err, data) =>{
+		if(err){
+			res.send({status: 404});
+		}
+		else{
+			transactions = transactions.concat(data);
+		}
+    });
+
+    // sort transaction Ascending by data
+    transactions.sort((a,b) =>{
+        return a.date-b.date;
+    });
+
+    let result = transactions.slice(transactions.length - 10, transactions.length);
+
+    res.send({status: 200, data: result});
 }

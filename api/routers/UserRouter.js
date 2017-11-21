@@ -13,4 +13,11 @@ module.exports = function(app){
     
     app.route('/userReceiveMoney')
     .put(userController.userReceiveMoney);
+
+    app.route('/user/:username')
+    .get(userController.getProfileByUser);
+
+    app.route('/user/wallet/:idWallet')
+    .get(userController.getProfileByiWallet);
+
 };

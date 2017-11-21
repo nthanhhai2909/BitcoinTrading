@@ -4,8 +4,6 @@ var User = mongoose.model('user');
 var randomstring = require("randomstring");
 var passwordHash = require('password-hash');
 exports.login = function(req, res){
-    let hashedPassword = 'sha1$3I7HRwy7$cbfdac6008f9cab4083784cbd1874f76618d2a97';
-    console.log(passwordHash.verify('password123', hashedPassword)); // true
     User.findOne({'username': req.body.username}, 'username password _id', (err, data)=>{
         if(err){
             res.send(err);
@@ -32,7 +30,6 @@ exports.login = function(req, res){
 exports.logup = function(req, res){
     let idWalletRandom = randomstring.generate();
     let hashedPassword = passwordHash.generate(req.body.password);
-    console.log('passHash', hashedPassword);
     User.findOne({'username': req.body.username}, 'username', (err, user) =>{
         if(err){
             res.send(err);
@@ -70,20 +67,22 @@ exports.logup = function(req, res){
 };
 
 exports.userSendMoney = (req, res) =>{
-    
     User.findById(req.body._id, (err, data) => {
         if(err){
             res.send({status: 404});
         }
         else{
+            if(data === null){
+                res.send({status: 404});
+            }
             let tranfer = parseFloat(req.body.tranfer);
             let blance = parseFloat(data.balance);
             let result = Number(Number(blance - tranfer).toFixed(12));
     
             if(result < 0){
                 res.send({status: 404});
-                return;
             }
+
             data.balance =  (result).toString();
             data.save((err) =>{
                 if(err){
@@ -119,3 +118,27 @@ exports.userReceiveMoney = (req, res) =>{
         }
     }); 
 }
+
+exports.getProfileByUser = (req, res) =>{
+    User.find({username: req.params.username}).exec((err, data) =>{
+		if(err){
+			res.send({status: 404});
+		}
+		else{
+    
+			res.send({status: 200, data: data});
+		}
+	});
+}
+
+exports.getProfileByiWallet = (req, res) => {
+    User.find({idWallet: req.params.idWallet}).exec((err, data) =>{
+		if(err){
+			res.send({status: 404});
+		}
+		else{
+			res.send({status: 200, data: data});
+		}
+	});
+}
+

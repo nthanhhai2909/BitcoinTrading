@@ -67,7 +67,6 @@ export default class Logup extends React.Component{
         else{
             this.setState({invalidConfirm: ""});
         }
-        console.log("hihi", count);
         return count;
     }
 
@@ -117,21 +116,20 @@ export default class Logup extends React.Component{
                     </div>
                     <div className="login-form">
                         <h3>Full name:</h3>
-                        <input type="text" placeholder="Full Name" value={this.state.fullname}
-                            onChange={this.handleChangeFullName}/>
+                        <input type="text" placeholder="Full Name" onChange={e =>this.handleChangeFullName(e)}/>
                             <br/>
                          <h3>Username:</h3>
-                        <input type="text" placeholder="Username" value={this.state.username}
-                            onChange={this.handleChangeUsername}/><br/>
+                        <input type="text" placeholder="Username" 
+                            onChange={ e => this.handleChangeUsername(e)}/><br/>
                             <h5>{this.state.invalidUsername}</h5>
                         <h3>Password:</h3>
-                        <input type="password" placeholder="Password" value={this.state.password}
-                            onChange={this.handleChangePassword}/>
+                        <input type="password" placeholder="Password" 
+                            onChange={e => this.handleChangePassword(e)}/>
                             <h5>{this.state.invalidPassword}</h5>
                             <br/>
                         <h3>Confirm:</h3>
-                        <input type="password" placeholder="Confirm" value={this.state.confirm}
-                            onChange={this.handleChangeConfirm}/>
+                        <input type="password" placeholder="Confirm"
+                            onChange={e => this.handleChangeConfirm(e)}/>
                             <h5>{this.state.invalidConfirm}</h5><br/>
                         <input type="button" value="Sign-up" className="login-button" onClick={()=>this.SignupClick()}/>
                         <br/>

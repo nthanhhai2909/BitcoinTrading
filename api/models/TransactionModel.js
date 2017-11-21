@@ -7,7 +7,7 @@ var Transaction = new Schema({
     username_sent: {type: String},
     username_receive: { type:String},
     date: {type:String},
-    transaction_amount: {type:SchemaTypes.Double} ,
+    transaction_amount: {type:String} ,
     description: {type:String}
 });
 

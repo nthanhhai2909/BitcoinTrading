@@ -210,3 +210,11 @@ body {
      background: #4facff;
      padding: 10px;
    }
+
+   .login-header Link{
+     font-size: 50%;
+   }
+
+   .login-header Nav{
+     font-size: 40%;
+   }

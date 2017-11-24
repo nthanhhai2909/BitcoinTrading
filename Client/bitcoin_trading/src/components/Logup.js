@@ -86,14 +86,14 @@ export default class Logup extends React.Component{
         if(this.isValidFrom() > 0){
             return;
         }
-
-        axios.post('http://localhost:3000/logup',{
+        axios.post('https://tradingbitcoin.herokuapp.com/logup',{
             fullname:this.state.fullname,
             username: this.state.username, 
             password: this.state.password,
             confirm:this.state.confirm,
         })
         .then((response)=>{
+            console.log(response.data);
             if(response.data.status === 'true'){
                 this.props.history.push("/");
             }

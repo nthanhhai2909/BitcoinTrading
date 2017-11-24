@@ -30,7 +30,7 @@ export default class Login extends React.Component{
     }
 
     loginClick(){
-        axios.post('http://localhost:3000/login',{
+        axios.post('https://tradingbitcoin.herokuapp.com/login',{
             username: this.state.username, 
             password: this.state.password
         })

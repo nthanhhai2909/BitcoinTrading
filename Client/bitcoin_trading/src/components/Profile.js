@@ -39,10 +39,10 @@ export default class Home extends React.Component{
         this.logout = this.logout.bind(this);
     }
     componentDidMount(){
+        console.log(this.state.islogin);
         let username = this.props.match.params.username.split("=", 2)[1];
         try{
             if(this.props.location.state.isLogin){
-                console.log("jiih");
                 this.setState({
                     islogin:this.props.location.state.islogin,
                 })
@@ -51,7 +51,7 @@ export default class Home extends React.Component{
         }
         catch(err){console.log("false")}
          // get Profile
-         axios.get('http://localhost:3000/user/' + username)
+         axios.get('https://tradingbitcoin.herokuapp.com/user/' + username)
          .then((response)=>{
              if(response.data.status === 'true'){
                  this.setState({
@@ -77,14 +77,14 @@ export default class Home extends React.Component{
 
     logout(){
         console.log('logout');
-        axios.post('http://localhost:3000/logout',{
+        axios.post('https://tradingbitcoin.herokuapp.com/logout',{
             username: this.state.username
         })
     }
 
     getTransaction(){
         // get Transaction
-        axios.get('http://localhost:3000/transaction/' + this.state.username)
+        axios.get('https://tradingbitcoin.herokuapp.com/transaction/' + this.state.username)
         .then((response) =>{
             this.setState({
                 transaction: response.data.data
@@ -105,20 +105,7 @@ export default class Home extends React.Component{
             this.props.history.push({
                 pathname:"/login",
             });
-            // axios.post('http://localhost:3000/checkLogin',{
-            //     username: username,
-            // })
-            // .then((response)=>{
-            //     if(response.data.status === 'true'){
-                    
-            //     } 
-            //     else{
-            //         this.props.history.push({
-            //             pathname:"/login",
-            //         });
-            //     }
-            // })
-            // .catch((err) => console.log(err));
+
         }
     }
 
@@ -148,7 +135,7 @@ export default class Home extends React.Component{
 
     checkIdWallet(idWalletTo){
          // TEST IDWallet valid
-        axios.get('http://localhost:3000/user/wallet/' + idWalletTo)
+        axios.get('https://tradingbitcoin.herokuapp.com/user/wallet/' + idWalletTo)
         .then((response)=>{
             if(response.data.status === 'true'){
                 if(response.data.data.length === 0){
@@ -250,7 +237,7 @@ export default class Home extends React.Component{
 
         let balance = this.state.balance;
         // Make a tranfer
-        axios.put('http://localhost:3000/userSendMoney', {
+        axios.put('https://tradingbitcoin.herokuapp.com/userSendMoney', {
             _id:this.state.myId,
             tranfer: this.state.amountDeposits,
         })
@@ -267,7 +254,7 @@ export default class Home extends React.Component{
         .catch((err) =>console.log(err));
 
         // Make receive tranfer
-        axios.put('http://localhost:3000/userReceiveMoney', {
+        axios.put('https://tradingbitcoin.herokuapp.com/userReceiveMoney', {
             _id:this.state.idTransaction,
             tranfer: this.state.amountDeposits,
         })
@@ -282,7 +269,7 @@ export default class Home extends React.Component{
 
         if(count === 0){
             let date = new Date();
-            axios.post('http://localhost:3000/transaction',{
+            axios.post('https://tradingbitcoin.herokuapp.com/transaction',{
                 username_sent: this.state.username,
                 username_receive: this.state.username_receive,
                 date: date.getTime().toString(),
@@ -310,13 +297,12 @@ export default class Home extends React.Component{
         return(
             <div>
                 <HeaderMyHome logout={this.logout}/>
-                
                 <div className="container-fluid">
                     <div className="row content">
                         <div className="col-sm-4">
                             <div className="content_transaction">
                                 <div className="login-form">
-                                    <h6>name	&#09;: {this.state.name}</h6>
+                                    <h6>Name	&#09;: {this.state.name}</h6>
                                     <h6>Balance	&#09;: {this.state.balance}</h6>
                                     <h6>ID Wallet : {this.state.idWallet}</h6>
                                     <hr/>

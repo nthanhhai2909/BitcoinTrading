@@ -14,7 +14,7 @@ export default class Home extends React.Component{
     }
 
     componentDidMount(){
-        axios.get('http://localhost:3000/transaction')
+        axios.get('https://tradingbitcoin.herokuapp.com/transaction')
         .then((response) =>{
             this.setState({
                 transaction: response.data.data

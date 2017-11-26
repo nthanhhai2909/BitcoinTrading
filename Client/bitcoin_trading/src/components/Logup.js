@@ -86,7 +86,7 @@ export default class Logup extends React.Component{
         if(this.isValidFrom() > 0){
             return;
         }
-        axios.post('https://tradingbitcoin.herokuapp.com/logup',{
+        axios.post('zlogup',{
             fullname:this.state.fullname,
             username: this.state.username, 
             password: this.state.password,

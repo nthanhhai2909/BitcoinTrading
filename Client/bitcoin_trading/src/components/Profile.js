@@ -41,6 +41,7 @@ export default class Home extends React.Component{
     componentDidMount(){
         console.log(this.state.islogin);
         let username = this.props.match.params.username.split("=", 2)[1];
+        this.getTransaction(username);
         try{
             if(this.props.location.state.isLogin){
                 this.setState({
@@ -67,27 +68,23 @@ export default class Home extends React.Component{
              }
          })
          .catch((err) => console.log(err));
-         //------------------------------------------------------------------------------
-         this.getTransaction()
-        
-       
-       
-        
+         //------------------------------------------------------------------------------  
     }
 
     logout(){
-        console.log('logout');
         axios.post('https://tradingbitcoin.herokuapp.com/logout',{
             username: this.state.username
         })
     }
 
-    getTransaction(){
+    getTransaction(username){
         // get Transaction
-        axios.get('https://tradingbitcoin.herokuapp.com/transaction/' + this.state.username)
+        axios.get('https://tradingbitcoin.herokuapp.com/transaction/' + username)
         .then((response) =>{
             this.setState({
-                transaction: response.data.data
+                transaction: response.data.data[0].sort((a, b) => {
+                    return parseFloat(b.date) - parseFloat(a.date);
+                }),
             });
         })
         .catch((err) => console.log(err));
@@ -105,7 +102,9 @@ export default class Home extends React.Component{
             this.props.history.push({
                 pathname:"/login",
             });
-
+        }
+        if(nextState.username !== this.state.username){
+            this.getTransaction(nextState.username);
         }
     }
 
@@ -279,7 +278,7 @@ export default class Home extends React.Component{
             .then((response)=>{
                 if(response.data.status === 'true'){
                     this.resetFormTransaction();
-                    this.getTransaction();
+                    this.getTransaction(this.state.username);
                 }
                 else{
                     this.setState({balance:balance});
